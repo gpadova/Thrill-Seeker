@@ -5,13 +5,15 @@ import { ProSidebarProvider } from "react-pro-sidebar";
 import styled from "styled-components";
 import {BarOnSide} from "@/Components/sidebar";
 import SearchPage from "@/Components/Search/search";
+import { useState } from "react";
 
 export default function Teste() {
+
   return (
     <ProSidebarProvider>
       <Page>
         <BarOnSide />
-        <SearchPage />
+        <SearchPage/>
       </Page>
     </ProSidebarProvider>
   );
