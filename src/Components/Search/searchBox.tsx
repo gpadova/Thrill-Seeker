@@ -40,7 +40,6 @@ export default function SearchBox({
     useState<boolean>(false);
   const [openDestinySuggestions, setOpenDestinySuggestions] =
     useState<boolean>(false);
-
   useEffect(() => {
     axios
       .get("/api/airports")
@@ -55,12 +54,6 @@ export default function SearchBox({
       <form onSubmit={handleSubmit}>
         <div
           className="from"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
         >
           <input
             type="text"
@@ -87,7 +80,7 @@ export default function SearchBox({
                     onClick={() => {
                       setFrom(item.name);
                       setOpenFromSuggestions(false);
-                      setOriginAiport(item.iata)
+                      setOriginAiport(item.iata);
                     }}
                   >
                     {item.name} - {item.iata}
@@ -123,7 +116,7 @@ export default function SearchBox({
                     onClick={() => {
                       setDestiny(item.name);
                       setOpenDestinySuggestions(false);
-                      setDestinyAiport(item.iata)
+                      setDestinyAiport(item.iata);
                     }}
                   >
                     {item.name} - {item.iata}
@@ -160,8 +153,9 @@ const Suggestions = styled.div`
   width: 170px;
   height: 90px;
   border: 1px solid black;
-  margin-left: 10px;
+  background-color: aliceblue;
   overflow-y: scroll;
+  position: absolute;
   z-index: 4;
   p {
     font-size: 16px;
@@ -179,9 +173,10 @@ const Box = styled.div`
   border-radius: 20px;
   display: flex;
   justify-content: space-evenly;
+  position: relative;
   align-items: center;
+  gap: 6px;
   input {
-    margin-left: 10px;
     width: 170px;
     height: 40px;
     border-radius: 5px;
@@ -191,9 +186,7 @@ const Box = styled.div`
     box-shadow: 9px 15px 24px -12px rgba(0, 0, 0, 0.61);
   }
   button {
-    margin-left: 10px;
-    width: 50px;
-    height: 50px;
+    width: calc(20% - 40px);
     font-size: 20px;
     background: #f19c79;
     border: 1px solid white;
@@ -201,5 +194,7 @@ const Box = styled.div`
   }
   form {
     display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
   }
 `;

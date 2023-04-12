@@ -15,19 +15,37 @@ export default function SearchPage() {
   const [returnDate, setReturnDate] = useState<string>("");
   const [flights, setFlights] = useState();
 
-  const URL = `/api/poll?originAiport=${originAiport}&destinyAirport=${destinyAiport}&departureDay=${departure}`;
-  
+  const dayOfFlight = Number(departure.split("-")[2]);
+  const monthOfFlight = Number(departure.split("-")[1]);
+
+  const options = {
+    method: "POST",
+    url: "https://skyscanner-api.p.rapidapi.com/v3/flights/live/search/create",
+    headers: {
+      "content-type": "application/json",
+      "X-RapidAPI-Key": "e7c9c19d43msh763f88b9c5afbfcp1e6b6ejsn6c1d904b889a",
+      "X-RapidAPI-Host": "skyscanner-api.p.rapidapi.com",
+    },
+    data: `{"query":{"market":"BR","locale":"pt-BR",
+    "currency":"USD","queryLegs":[{"originPlaceId":
+    {"iata":"${originAiport}"},"destinationPlaceId":
+    {"iata":"${destinyAiport}"},"date":{"year":${departure.split("-")[0]},
+    "month":${monthOfFlight},"day":${dayOfFlight}}}],
+    "cabinClass":"CABIN_CLASS_ECONOMY","adults":1}}`,
+  };
+
   async function handleSubmit(e: FormEvent<HTMLInputElement>) {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axios.get(URL)
-      console.log("request done!")
-      setFlights(response.data)
+      const response = await axios.request(options);
+      console.log("request done!");
+      console.log(response);
+      setFlights(response.data.content.results);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-  console.log(departure)
+
   return (
     <Page>
       <h2>Find the best all-around trip for you</h2>

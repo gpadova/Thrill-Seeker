@@ -1,22 +1,25 @@
-'use client'
+"use client";
 
-import Link from "next/link"
-import styled from "styled-components"
+import Link from "next/link";
+import { ProSidebarProvider } from "react-pro-sidebar";
+import styled from "styled-components";
+import {BarOnSide} from "@/Components/sidebar";
+import SearchPage from "@/Components/Search/search";
+import { useState } from "react";
 
-export default function Home() {
+export default function Teste() {
+
   return (
-    <Title>
-      <div className="lateral">banana</div>
-      <Link href="/content">Dashboard</Link>
-    </Title>
-  )
+    <ProSidebarProvider>
+      <Page>
+        <BarOnSide />
+        <SearchPage/>
+      </Page>
+    </ProSidebarProvider>
+  );
 }
 
-const Title = styled.div`
+const Page = styled.div`
   display: flex;
-    .lateral {
-      width: 70px;
-      height: 100vh;
-      background: blue;
-    }  
+  height: 100vh;
 `
