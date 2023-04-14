@@ -51,7 +51,7 @@ export default function SearchBox({
 
   return (
     <Box>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <div
           className="from"
         >
@@ -132,13 +132,6 @@ export default function SearchBox({
           placeholder="Departure"
           value={departure}
           onChange={(e) => setDeparture(e.target.value)}
-          required
-        />
-        <input
-          type="date"
-          placeholder="Return"
-          value={returnDate}
-          onChange={(e) => setReturnDate(e.target.value)}
           required
         />
         <button type="submit">

@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import SearchBox from "./searchBox";
 import SearchFlightResult from "./searchFlightResult";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import axios from "axios";
 
 export default function SearchPage() {
@@ -13,7 +13,10 @@ export default function SearchPage() {
   const [destinyAiport, setDestinyAiport] = useState<string>("");
   const [departure, setDeparture] = useState<string>("");
   const [returnDate, setReturnDate] = useState<string>("");
-  const [flights, setFlights] = useState();
+  const [itineraries, setItineraries] = useState<{}>();
+  const [flights, setFlights] = useState<{}>();
+  const [flightsIds, setFlightsIds] = useState<{}>();
+  const [searchedButton, setSearchButton] = useState<boolean>(false);
 
   const dayOfFlight = Number(departure.split("-")[2]);
   const monthOfFlight = Number(departure.split("-")[1]);
@@ -38,9 +41,11 @@ export default function SearchPage() {
     e.preventDefault();
     try {
       const response = await axios.request(options);
-      console.log("request done!");
-      console.log(response);
-      setFlights(response.data.content.results);
+      setFlights(response.data.content);
+      setItineraries(response.data.content.results.itineraries);
+      setSearchButton(true);
+      console.log(flights);
+      console.log(itineraries);
     } catch (error) {
       console.log(error);
     }
@@ -64,8 +69,22 @@ export default function SearchPage() {
         setDestinyAiport={setDestinyAiport}
         handleSubmit={handleSubmit}
       />
-      <h3>Here are the best results, carefully searched for you:</h3>
-      <SearchFlightResult />
+      {searchedButton && (
+        <h3>Here are the best results, carefully searched for you:</h3>
+      )}
+      {searchedButton &&
+        Object.keys(itineraries!).map((flightId, index) => (
+          <SearchFlightResult
+            key={index}
+            flightId={flightId}
+            flights={flights}
+            itineraries={itineraries}
+            from = {from}
+            originAiport = {originAiport}
+            destiny = {destiny}
+            destinyAiport={destinyAiport}
+          />
+        ))}
     </Page>
   );
 }
