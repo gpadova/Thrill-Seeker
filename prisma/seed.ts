@@ -1,4 +1,4 @@
-import prisma from "../Database/database.js";
+import prisma from "../database/database.js";
 import data from "../public/airportsList.json" assert { type: "json" };
 
 async function main() {

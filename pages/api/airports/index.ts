@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../Database/database";
+import prisma from "../../../database/database";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const airports = await prisma.airports.findMany({})

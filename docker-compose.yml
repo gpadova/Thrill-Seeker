@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres
+    container_name: pg_db
+    restart: always
+    ports:
+      - 5433:5433
+    networks:
+     - next_network  
+    environment:
+      DATABASE_URL: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+     - pg:/var/lib/postgresql/data
+
+  client:
+    container_name: next_container
+    networks:
+     - next_network  
+    build:
+      context: ./
+    volumes:
+      - .:/app
+    command: npm run dev
+    ports:
+      - 3000:3000
+
+  nginx_app:
+    container_name: nginx_app
+    build:
+      context: ./nginx
+    ports:
+      - 8080:80
+    volumes:
+      - pg:/app/public
+    networks:
+      - next_network
+      
+
+networks:
+  next_network: 
+    name: next_network
+    driver: bridge
+
+volumes:
+  pg:       

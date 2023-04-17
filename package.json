@@ -8,9 +8,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npm run prisma:migrate:deploy && next start",
     "lint": "next lint",
-    "prisma:seed": "npx prisma db seed"
+    "prisma:seed": "npx prisma db seed",
+    "primsma:migrate:deploy": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^4.12.0",
